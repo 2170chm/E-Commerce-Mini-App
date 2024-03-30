@@ -4,6 +4,7 @@ import { CartProvider } from "../context/CartContext";
 import HomePage from "../pages/HomePage";
 import CartPage from "../pages/CartPage";
 import Header from "../components/Header/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

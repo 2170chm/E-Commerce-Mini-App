@@ -1,5 +1,3 @@
-// src/components/SearchBar/SearchBar.js
-
 import React, { useState } from "react";
 
 const SearchBar = ({ onSetSearchCriteria, onSetSearchType }) => {
@@ -12,12 +10,16 @@ const SearchBar = ({ onSetSearchCriteria, onSetSearchType }) => {
     onSetSearchType(searchType);
   };
 
+  const handleClearSearch = () => {
+    setInputValue("");
+    onSetSearchCriteria("");
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="d-flex justify-content-center mt-3"
     >
-      {/* Add a dropdown to select search type */}
       <select
         className="form-control mr-2"
         value={searchType}
@@ -27,7 +29,6 @@ const SearchBar = ({ onSetSearchCriteria, onSetSearchType }) => {
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>
-      {/* Add a search input field */}
       <input
         type="text"
         className="form-control"
@@ -37,6 +38,13 @@ const SearchBar = ({ onSetSearchCriteria, onSetSearchType }) => {
       />
       <button type="submit" className="btn btn-primary ml-2">
         Search
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary ml-2"
+        onClick={handleClearSearch}
+      >
+        Clear
       </button>
     </form>
   );

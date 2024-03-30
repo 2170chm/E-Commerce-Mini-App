@@ -21,6 +21,11 @@ const ProductList = () => {
       .catch((error) => console.error("Failed to fetch products:", error));
   }, []);
 
+  useEffect(() => {
+    // Reset to the first page whenever search criteria change
+    setCurrentPage(1);
+  }, [searchTerm, searchType]);
+
   // Filter products based on searchTerm
   const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
@@ -32,7 +37,7 @@ const ProductList = () => {
     return false;
   });
 
-  // Get current products to display on the page
+  // Calculate the products to display on the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -63,29 +68,42 @@ const ProductList = () => {
           onSetSearchType={setSearchType}
         />
       </div>
-      <div className="row">
-        {currentProducts.map((product) => (
-          <Product
-            key={product.id}
-            product={product}
-            onAddToCart={() => addToCart(product)}
-          />
-        ))}
-      </div>
-      <nav aria-label="Product Pagination">
-        <ul className="pagination justify-content-center">
-          {pageNumbers.map((number) => (
-            <li
-              key={number}
-              className={`page-item ${currentPage === number ? "active" : ""}`}
-            >
-              <a onClick={() => handlePageChange(number)} className="page-link">
-                {number}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {filteredProducts.length > 0 ? (
+        <>
+          <div className="row">
+            {currentProducts.map((product) => (
+              <Product
+                key={product.id}
+                product={product}
+                onAddToCart={() => addToCart(product)}
+              />
+            ))}
+          </div>
+          <nav aria-label="Product Pagination">
+            <ul className="pagination justify-content-center">
+              {pageNumbers.map((number) => (
+                <li
+                  key={number}
+                  className={`page-item ${
+                    currentPage === number ? "active" : ""
+                  }`}
+                >
+                  <a
+                    onClick={() => handlePageChange(number)}
+                    className="page-link"
+                  >
+                    {number}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </>
+      ) : (
+        <div className="text-center mt-5">
+          <p>No products found.</p>
+        </div>
+      )}
     </>
   );
 };
