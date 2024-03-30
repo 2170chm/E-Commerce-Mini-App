@@ -30,7 +30,7 @@ const Cart = () => {
 
   const handlePlaceOrder = () => {
     setOrderPlaced(true);
-    setShow(true);
+    handleShow(true);
   };
 
   const handleEmptyCart = () => {
